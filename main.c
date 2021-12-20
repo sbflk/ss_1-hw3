@@ -10,6 +10,7 @@ int gematric_value(char);
 int word_gematric_val(char []);
 char abtash_of_char(char);
 int abtash_of_word(char [], char []);
+int is_anagram(char w [], char s []);
 
 int main()
 {
@@ -98,6 +99,47 @@ int main()
         printf("%s",last_word1);
     }
     printf("\n");
+    printf("Anagram Sequences: ");
+
+    char last_word2[TXT] = {0};
+    for(int i = 0; i < strlen(text); i++)
+    {
+        if(gematric_value(text[i]) != 0)
+        {
+            int over = false;
+            char word[TXT] = {0};
+            for(int j = i; j < strlen(text); j++)
+            {
+                if(over == false)
+                {
+                    char tmp[2] = {0};
+                    strcpy(tmp,(char[2]){text[j]});
+                    strcat(word,tmp);
+                    if(is_anagram(cmd,word))
+                    {
+                        if(strlen(last_word2) == 0)
+                        {
+                            strcpy(last_word2,word);
+                        }
+                        else
+                        {
+                            printf("%s~", last_word2);
+                            strcpy(last_word2,word);
+                        }
+                        over = true;
+                    }
+                }
+            }
+        }
+        
+    }
+    if(strlen(last_word2) != 0)
+    {
+        printf("%s",last_word2);
+    }
+
+
+
 
 
 
@@ -175,4 +217,33 @@ int abtash_of_word(char w [], char s [])
         return true;
     }
     return false;
+}
+
+
+
+int is_anagram(char w [], char s [])
+{
+    int ascii[127] = {0};
+    for(int i = 0; i < strlen(w); i++)
+    {
+        if(w[i] != ' ' && w[i] != '\t' && w[i] != '\n')
+        {
+            ascii[(int)w[i]]++;
+        }
+    }
+    for(int i = 0; i < strlen(s); i++)
+    {
+        if(s[i] != ' ' && s[i] != '\t' && s[i] != '\n')
+        {
+            ascii[(int)s[i]]--;
+        }
+    }
+    for(int i = 0; i < 127; i++)
+    {
+        if(ascii[i] != 0)
+        {
+            return false;
+        } 
+    }
+    return true;
 }
